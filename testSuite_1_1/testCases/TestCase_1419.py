@@ -1,13 +1,22 @@
 import unittest
 import os, sys
-import subprocess
 sys.path.insert(1, os.path.join(sys.path[0], "testSuite_1_1/tasks"))
 from test4 import CheckingRules1419
 
+
 class TestCase_1419(unittest.TestCase):
 
-    def setUp(self):
-        self.cr = CheckingRules1419('Wels082017')
+    thing = None
+
+    @classmethod
+    def setUpClass(cls):
+        print("\n")
+        pwd = input("[sudo] password: ")
+        print("\n")
+        cls.thing = CheckingRules1419(pwd)  # the `thing` is only instantiated once
+
+    def setUp(self) -> None:
+        self.cr = TestCase_1419.thing
 
     def test_add(self):
         self.assertEqual(self.cr.check_add_users_and_groups(), True)

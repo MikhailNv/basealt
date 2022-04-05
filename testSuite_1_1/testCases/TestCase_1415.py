@@ -1,8 +1,6 @@
 import unittest
 import os, sys
-import subprocess
 sys.path.insert(1, os.path.join(sys.path[0], "testSuite_1_1/tasks"))
-print(sys.path)
 from test_gui_program import GuiProgram
 
 class TestCase_1415(unittest.TestCase):
