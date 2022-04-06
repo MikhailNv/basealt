@@ -1,4 +1,5 @@
 import subprocess
+import sys
 from passlib.hash import sha512_crypt
 import pexpect
 
@@ -39,8 +40,9 @@ class CheckingRules1419:
 
     # Проверка добавления пользователей и группы.
     def check_add_users_and_groups(self):
-        passwd_test1 = sha512_crypt.encrypt('q1w2e3r4')
-        passwd_test2 = sha512_crypt.encrypt('1q2w3e4r')
+        print(sys.path)
+        passwd_test1 = sha512_crypt.hash('q1w2e3r4')
+        passwd_test2 = sha512_crypt.hash('1q2w3e4r')
         afu = self.call_new_window(f'sudo -S -u root useradd test1 -p {passwd_test1}'.split())
         asu = self.call_new_window(f'sudo -S -u root useradd test2 -p {passwd_test2}'.split())
         ag = self.call_new_window('sudo -S -u root groupadd testgroup'.split())
@@ -128,4 +130,5 @@ class CheckingRules1419:
             if i.returncode != 0:
                 return i.stderr
         return True
+
 

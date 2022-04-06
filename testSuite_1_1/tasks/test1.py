@@ -50,7 +50,7 @@ class CheckingRules1416:
         if len(self.get_int) == 1 and 'lo' in self.get_int:
             return self.get_int[0]
         else:
-            cmd = ['ifconfig', f'{self.get_int[1]}', 'down']
+            cmd = ['ifconfig', f'{self.get_int[0]}', 'down']
             ps = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
             if ps.returncode == 0:
                 return True
@@ -59,7 +59,7 @@ class CheckingRules1416:
 
     # Проверка корректности включения нужного интерфейса
     def check_interface_is_up(self):
-        cmd = ['ifconfig', f'{self.get_int[1]}', 'up']
+        cmd = ['ifconfig', f'{self.get_int[0]}', 'up']
         ps = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
         if ps.returncode == 0:
             time.sleep(3)
