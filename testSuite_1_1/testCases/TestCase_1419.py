@@ -4,7 +4,8 @@ import subprocess
 sys.path.insert(1, os.path.join(sys.path[0], "testSuite_1_1/tasks"))
 from test4 import CheckingRules1419
 
-cr = CheckingRules1419('Wels082017')
+SUDO_PASSWD = 'PUT HERE SUDO PASSWORD FOR OFFICER'
+cr = CheckingRules1419(SUDO_PASSWD)
 
 def test_add():
     assert (cr.check_add_users_and_groups() == True)
