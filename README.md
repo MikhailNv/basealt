@@ -37,7 +37,7 @@
     source venv/bin/activate
     python3 -m pip install -r requirements.txt
     ```
-    * !!! Важно !!!
+* Шаг 4
     ```bash
     # Открываем необходимый файл
     vim testSuite_1_1/testCases/TestCase_1419.py
