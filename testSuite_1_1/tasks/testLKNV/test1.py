@@ -1,50 +1,65 @@
-import subprocess
-import os
-class FirstCheckingRules:
+import pexpect
 
-    def create_file(self):
-        os.chdir('/home/user/')
-        touch_file = ['touch', 'tfile']
-        ps = subprocess.run(touch_file, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, encoding='utf-8')
-        if ps.returncode != 0:
-            return ps
-        else:
-            ls = subprocess.run(['ls', '-l', 'tfile'], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                encoding='utf-8')
-            print(ls.stdout)
-            output_file = open('tfile', 'w')
-            cf = subprocess.call(['echo', '123'], stdout=output_file, stderr=subprocess.PIPE, encoding='utf-8')
-            output_file.close()
-            if cf == 0:
-                touch_file = ['cat', 'tfile']
-                ps = subprocess.run(touch_file, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
-                if ps.stdout.split('\n')[0] == '123':
-                    return True
-                else:
-                    return ps.stderr
-            else:
-                return cf.stderr
+class CheckingUID:
 
-    def change_the_right(self):
-        sudo_password = 'qwerty'
-        p = subprocess.Popen(['sudo', '-i'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-        print(p.stdout)
-        p.communicate(sudo_password + '\n')
-        touch_file = ['chmod', 'u-rw', '/home/user/tfile']
-        chmod = subprocess.run(touch_file, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, encoding='utf-8')
-        if chmod.returncode != 0:
-            return chmod.stderr
-        else:
-            ls = subprocess.run(['ls', '-l', '/home/user/tfile'], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                encoding='utf-8')
-            print(ls.stdout)
+    def add_ivk1(self):
+        child = pexpect.spawn("su -")
+        i = child.expect_exact(["#", "Password:"])
+        if i == 1:
+            child.sendline('Wels082017')
+        child.sendline("useradd ivk1")
+        child.expect_exact("#")
+        child.sendline("passwd ivk1")
+        child.expect_exact("password")
+        child.sendline("qwerty")
+        child.expect_exact("password")
+        child.sendline("qwerty")
+        child.expect_exact("#")
+        child.sendline("su - ivk1")
+        child.expect_exact("$")
+        child.sendline("whoami")
+        child.expect_exact("$")
+        print(child.before.decode().split('\r\n'))
+        return True
 
-    # def rm_file(self):
-    #     os.chdir('/home/user/')
-    #     p = subprocess.Popen(['rm', 'tfile'], stdin=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-    #     p.communicate('y' + '\n')
-ch = FirstCheckingRules()
-# print(ch.create_file())
-print(ch.change_the_right())
-# print(ch.change_the_right())
-# print(ch.rm_file())
+    def check_input_for_ivk1(self):
+        child = pexpect.spawn('su - ivk1')
+        child.expect_exact("$")
+        child.sendline("touch tfile")
+        child.expect_exact("$")
+        child.sendline("ls -l tfile")
+        child.expect_exact("$")
+        child.sendline("echo 123 > tfile")
+        child.expect_exact("$")
+        child.sendline("cat tfile")
+        child.expect_exact("$")
+        return True
+
+    def change_chmod(self):
+        try:
+            child = pexpect.spawn("su -")
+            i = child.expect_exact(["#", "Password:"])
+            if i == 1:
+                child.sendline('Wels082017')
+            child.sendline("chmod u-rw /home/ivk1/tfile")
+            child.expect_exact("#")
+            child.sendline("ls -l /home/ivk1/tfile")
+            child.expect_exact("#")
+            return True
+        except pexpect.EOF:
+            return False
+
+    def read_file_with_ivk1(self):
+        child = pexpect.spawn("su - ivk1")
+        i = child.expect_exact(["$", "Password:"])
+        if i == 1:
+            child.sendline('qwerty')
+        child.sendline("cat tfile")
+        child.expect_exact("$")
+        if 'Permission denied' not in child.before.decode('utf-8').split('\r\n')[1]:
+            return child.before.decode()
+        child.sendline("echo 456 >> tfile")
+        child.expect_exact("$")
+        if 'Permission denied' not in child.before.decode('utf-8').split('\r\n')[1]:
+            return child.before.decode()
+        return True

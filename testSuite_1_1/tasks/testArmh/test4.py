@@ -40,7 +40,6 @@ class CheckingRules1419:
 
     # Проверка добавления пользователей и группы.
     def check_add_users_and_groups(self):
-        print(sys.path)
         passwd_test1 = sha512_crypt.hash('q1w2e3r4')
         passwd_test2 = sha512_crypt.hash('1q2w3e4r')
         afu = self.call_new_window(f'sudo -S -u root useradd test1 -p {passwd_test1}'.split())

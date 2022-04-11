@@ -59,7 +59,7 @@ class CheckingRules1418:
         os.chdir('/../tmp/test_1')
         copy = self.check_command(['cp', 'myfile_1', '/tmp'], False)
         if copy == True:
-            os.chdir('..')
+            os.chdir('../..')
             ls = subprocess.run(['ls'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
             if 'myfile_1' in ls.stdout.split('\n'):
                 return True

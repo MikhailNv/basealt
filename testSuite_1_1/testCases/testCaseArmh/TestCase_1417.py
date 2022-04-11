@@ -1,7 +1,7 @@
 import unittest
 import os, sys
 import subprocess
-sys.path.insert(1, os.path.join(sys.path[0], "testSuite_1_1/tasks"))
+sys.path.insert(1, os.path.join(sys.path[0], "testSuite_1_1/tasks/testArmh"))
 from test2 import CheckingRules1417
 
 cr = CheckingRules1417()
