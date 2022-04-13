@@ -62,9 +62,3 @@ class CheckingACL:
             else:
                 return True
 
-
-ch = CheckingACL()
-#print(ch.add_ivk2())
-#print(ch.add_rights('-x u:ivk2'))
-print(ch.check_rights_ivk2('before'))
-

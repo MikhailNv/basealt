@@ -1,6 +1,6 @@
 import pexpect
 
-class CheckingGID:
+class CheckingFirstGID:
 
     def access(self):
         child = pexpect.spawn("su -")

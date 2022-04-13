@@ -1,8 +1,8 @@
 import os, sys
 sys.path.insert(1, os.path.join(sys.path[0], "testSuite_1_1/tasks/testLKNV"))
-from test3 import CheckingGID
+from test3 import CheckingFirstGID
 
-cr = CheckingGID()
+cr = CheckingFirstGID()
 
 def test_access():
     assert (cr.access() == True)
