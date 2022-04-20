@@ -8,6 +8,11 @@ class CatalogACL:
         child.expect_exact("#")
         child.sendline('mkdir /dtest/a1')
         child.expect_exact("#")
+        if 'File exists' in child.before.decode('utf-8').split('\r\n')[1]:
+            child.sendline('rm -Rfv /dtest/a1')
+            child.expect_exact("#")
+            child.sendline('mkdir /dtest/a1')
+            child.expect_exact("#")
         child.sendline('ls -l /dtest/')
         child.expect_exact("#")
         if 'a1' in child.before.decode('utf-8').split()[5:14][8]:
@@ -17,16 +22,18 @@ class CatalogACL:
             child.expect_exact("#")
             if 'ivk1' in child.before.decode('utf-8').split()[5:14] and 'ivk2' in child.before.decode('utf-8').split()[
                                                                                   5:14]:
+                child.sendline('ls -l /dtest')
+                child.expect_exact("#")
+                print(child.before.decode('utf-8').split()[5:14])
                 child.sendline('chmod g-rx /dtest/a1')
                 child.expect_exact("#")
                 child.sendline('chmod o-rx /dtest/a1')
-                child.expect_exact("#")
-                child.sendline('ls -l /dtest')
                 child.expect_exact("#")
                 child.sendline('chmod u-rwx /dtest/a1')
                 child.expect_exact("#")
                 child.sendline('ls -l /dtest')
                 child.expect_exact("#")
+                print(child.before.decode('utf-8').split()[5:14])
                 if 'd---------' == child.before.decode('utf-8').split()[5:14][0]:
                     return True
                 else:

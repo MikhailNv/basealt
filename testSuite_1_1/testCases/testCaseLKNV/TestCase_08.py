@@ -1,6 +1,6 @@
 import os, sys
 sys.path.insert(1, os.path.join(sys.path[0], "testSuite_1_1/tasks/testLKNV"))
-from test8 import ClassACL
+from test08 import ClassACL
 
 cr = ClassACL()
 

@@ -9,6 +9,13 @@ class ClassUID:
         self.child.expect_exact("#")
 
     def change_rights(self):
+        self.child.sendline('ls /dev | grep sdb1')
+        self.child.expect_exact("#")
+        if 'sdb1' in self.child.before.decode('utf-8').split():
+            self.child.sendline('rm /dev/sdb1')
+            self.child.expect_exact("?")
+            self.child.sendline('yes')
+            self.child.expect_exact("#")
         self.child.sendline('touch /dev/sdb1')
         self.child.expect_exact("#")
         self.child.sendline('ls -l /dev/sdb1')
@@ -19,6 +26,7 @@ class ClassUID:
         self.child.expect_exact("#")
         self.child.sendline('ls -l /dev/sdb1')
         self.child.expect_exact("#")
+        print(self.child.before.decode('utf-8').split())
         if '-r--r--r--' in self.child.before.decode('utf-8').split() and \
                 'ivk1' == self.child.before.decode('utf-8').split()[5] and \
                 'ivk2' == self.child.before.decode('utf-8').split()[6]:
@@ -55,8 +63,3 @@ class ClassUID:
             return True
         else:
             raise Exception('Changing access rights error')
-
-
-
-cr = ClassUID()
-print(cr.check_rights())

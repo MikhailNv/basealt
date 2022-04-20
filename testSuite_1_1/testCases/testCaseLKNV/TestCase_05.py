@@ -1,6 +1,6 @@
 import os, sys
 sys.path.insert(1, os.path.join(sys.path[0], "testSuite_1_1/tasks/testLKNV"))
-from test5 import CatalogGID
+from test05 import CatalogGID
 
 cr = CatalogGID()
 

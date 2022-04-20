@@ -1,6 +1,6 @@
 import os, sys
 sys.path.insert(1, os.path.join(sys.path[0], "testSuite_1_1/tasks/testLKNV"))
-from test3 import CheckingFirstGID
+from test03 import CheckingFirstGID
 
 cr = CheckingFirstGID()
 

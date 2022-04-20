@@ -1,6 +1,6 @@
 import os, sys
 sys.path.insert(1, os.path.join(sys.path[0], "testSuite_1_1/tasks/testLKNV"))
-from test1 import CheckingUID
+from test01 import CheckingUID
 
 cr = CheckingUID()
 

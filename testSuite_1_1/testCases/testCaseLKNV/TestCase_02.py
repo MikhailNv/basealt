@@ -1,6 +1,6 @@
 import os, sys
 sys.path.insert(1, os.path.join(sys.path[0], "testSuite_1_1/tasks/testLKNV"))
-from test2 import CheckingACL
+from test02 import CheckingACL
 
 cr = CheckingACL()
 
